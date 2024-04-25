@@ -6,6 +6,7 @@ const {
   getUserPins,
   createPin,
   updatePin,
+  fetchPinWithId,
 } = require("../controllers/pin.controller");
 
 // middlewares
@@ -18,6 +19,9 @@ const {
 
 // GET all pins
 router.get("/", getAllPins);
+
+// GET location from google
+router.get("/place", fetchPinWithId);
 
 // GET a user's pins
 router.get("/user/:userId", validateUserIdInParams, getUserPins);

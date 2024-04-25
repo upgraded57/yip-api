@@ -1,5 +1,6 @@
 const Pin = require("../models/pin.model.js");
 const User = require("../models/user.model.js");
+require("dotenv").config();
 
 // GET all pins
 const getAllPins = async (req, res) => {
@@ -55,6 +56,31 @@ const getUserPins = async (req, res) => {
       return res.status(400).json({
         status: "failure",
         message: "Unable to fetch pins",
+        error: err,
+      });
+    });
+};
+
+// fetch pin on google
+const fetchPinWithId = async (req, res) => {
+  const { placeId } = req.body;
+
+  await fetch(
+    `https://places.googleapis.com/v1/places/${placeId}?fields=addressComponents&key=${process.env.GOOGLE_API_KEY}`,
+    { method: "GET" }
+  )
+    .then((response) => response.text())
+    .then((result) => {
+      return res.status(200).json({
+        status: "success",
+        message: "Place fetched successfully",
+        place: result,
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({
+        status: "error",
+        message: "Unable to find place",
         error: err,
       });
     });
@@ -149,4 +175,10 @@ const updatePin = async (req, res) => {
     });
 };
 
-module.exports = { getAllPins, getUserPins, createPin, updatePin };
+module.exports = {
+  getAllPins,
+  getUserPins,
+  createPin,
+  updatePin,
+  fetchPinWithId,
+};
