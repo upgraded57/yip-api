@@ -1,6 +1,7 @@
 const Pin = require("../models/pin.model.js");
 const User = require("../models/user.model.js");
 require("dotenv").config();
+const axios = require("axios");
 
 // GET all pins
 const getAllPins = async (req, res) => {
@@ -65,16 +66,39 @@ const getUserPins = async (req, res) => {
 const fetchPinWithId = async (req, res) => {
   const { placeId } = req.body;
 
-  await fetch(
-    `https://places.googleapis.com/v1/places/${placeId}?fields=addressComponents&key=${process.env.GOOGLE_API_KEY}`,
-    { method: "GET" }
-  )
-    .then((response) => response.text())
-    .then((result) => {
+  // await fetch(
+  //   `https://places.googleapis.com/v1/places/${placeId}?fields=addressComponents&key=${process.env.GOOGLE_API_KEY}`,
+  //   { method: "GET" }
+  // )
+  //   .then((response) => response.text())
+  //   .then((result) => {
+  //     return res.status(200).json({
+  //       status: "success",
+  //       message: "Place fetched successfully",
+  //       place: result,
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     return res.status(500).json({
+  //       status: "error",
+  //       message: "Unable to find place",
+  //       error: err,
+  //     });
+  //   });
+
+  await axios
+    .get("https://maps.googleapis.com/maps/api/place/details/json", {
+      params: {
+        place_id: placeId,
+        fields: "address_components",
+        key: process.env.GOOGLE_API_KEY,
+      },
+    })
+    .then((res) => {
       return res.status(200).json({
         status: "success",
         message: "Place fetched successfully",
-        place: result,
+        place: res,
       });
     })
     .catch((err) => {
