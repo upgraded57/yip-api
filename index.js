@@ -3,6 +3,7 @@ const dbConn = require("./utils/dbconn.js");
 const cors = require("cors");
 const userRoutes = require("./routes/user.route.js");
 const pinRoutes = require("./routes/pin.route.js");
+const { default: axios } = require("axios");
 require("dotenv").config();
 
 // application instance initialization

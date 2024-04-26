@@ -6,7 +6,6 @@ const {
   getUserPins,
   createPin,
   updatePin,
-  fetchPinWithId,
   deletePin,
 } = require("../controllers/pin.controller");
 
@@ -22,7 +21,7 @@ const {
 router.get("/", getAllPins);
 
 // GET location from google
-router.get("/place", fetchPinWithId);
+// router.post("/place", fetchPinDistanceFromUser);
 
 // GET a user's pins
 router.get("/user/:userId", validateUserIdInParams, getUserPins);

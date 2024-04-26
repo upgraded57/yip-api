@@ -1,7 +1,7 @@
 {
   "name": "yip-case-study",
   "version": "1.0.0",
-  "description": "A web-based system where users can pin customer locations on a Google Map interface",
+  "description": "A web-based navigation system where users can pin customer locations on a Google Map interface",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
