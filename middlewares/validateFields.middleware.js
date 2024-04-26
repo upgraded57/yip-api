@@ -123,8 +123,33 @@ const verifyEmailNotExisting = async (req, res, next) => {
   next();
 };
 
-const validatePinId = (req, res, next) => {
-  const { pinId } = req.params || req.body;
+const validatePinIdInParams = (req, res, next) => {
+  const { pinId } = req.params;
+
+  // check if pin id is provided
+  if (!pinId) {
+    return res.status(400).json({
+      status: "failure",
+      message: "Pin id not supplied",
+    });
+  }
+
+  // check if pin id is a valid object id
+  const pinIdIsValid = mongoose.Types.ObjectId.isValid(pinId);
+
+  // return error if user id is not valid
+  if (!pinIdIsValid) {
+    return res.status(400).json({
+      status: "failure",
+      message: "Invalid pin id supplied",
+    });
+  }
+
+  next();
+};
+
+const validatePinIdInBody = (req, res, next) => {
+  const { pinId } = req.body;
 
   // check if pin id is provided
   if (!pinId) {
@@ -190,6 +215,7 @@ module.exports = {
   validateUserIdInParams,
   validateUserIdInBody,
   verifyEmailNotExisting,
-  validatePinId,
+  validatePinIdInBody,
+  validatePinIdInParams,
   validatePinFields,
 };

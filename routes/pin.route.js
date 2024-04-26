@@ -7,6 +7,7 @@ const {
   createPin,
   updatePin,
   fetchPinWithId,
+  deletePin,
 } = require("../controllers/pin.controller");
 
 // middlewares
@@ -14,7 +15,7 @@ const {
   validateUserIdInBody,
   validateUserIdInParams,
   validatePinFields,
-  validatePinId,
+  validatePinIdInParams,
 } = require("../middlewares/validateFields.middleware");
 
 // GET all pins
@@ -30,6 +31,9 @@ router.get("/user/:userId", validateUserIdInParams, getUserPins);
 router.post("/", validateUserIdInBody, validatePinFields, createPin);
 
 // UPDATE a pin
-router.patch("/:pinId", validatePinId, updatePin);
+router.patch("/:pinId", validatePinIdInParams, updatePin);
+
+// DELETE a pin
+router.delete("/:pinId", validatePinIdInParams, deletePin);
 
 module.exports = router;
